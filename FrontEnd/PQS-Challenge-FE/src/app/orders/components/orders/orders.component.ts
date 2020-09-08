@@ -12,14 +12,42 @@ export class OrdersComponent implements OnInit {
 
   orders: any;
 
+  pendingApproval = {
+      name: 'Pending Approval',
+      value: 'pending'
+  };
+
+  approved = {
+    name: 'Approved',
+    value: 'approved'
+  };
+
+  rejected = {
+    name: 'Rejected',
+    value: 'rejected'
+  };
+
+  statuses = [this.pendingApproval, this.approved, this.rejected];
+
+  selectedStatus = 'Pending Approval';
+
   ngOnInit(): void {
-    this.ordersService.getOrders().subscribe(result => {
-      console.log('results', result);
+    this.ordersService.getOrders(this.pendingApproval.value).subscribe(result => {
       this.orders = result;
     },
     error => {
       console.error(error);
-    })
+    });
+  }
+
+  setStatus(status) {
+    this.selectedStatus = status.name;
+    this.ordersService.getOrders(status.value).subscribe(result => {
+      this.orders = result;
+    },
+    error => {
+      console.error(error);
+    });
   }
 
 }

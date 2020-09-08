@@ -9,11 +9,10 @@ export class OrdersService {
   constructor(protected http: HttpClient) { }
 
   getOrderById(orderId: number) {
-    return this.http.get('http://localhost:53634/Orders/GetOrderById/' + orderId);
+    return this.http.get('http://localhost:53634/api/Orders/GetOrderById/' + orderId);
   }
 
-  getOrders() {
-    const orderStatusPendingApproval = 0;
-    return this.http.get('http://localhost:53634/Orders/GetOrders/0');
+  getOrders(status: string) {
+    return this.http.get('http://localhost:53634/api/Orders/' + status);
   }
 }

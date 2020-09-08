@@ -16,7 +16,8 @@ export class OrderDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      this.orderId = params['orderId'];
+      this.orderId = +params['id'];
+      console.log('param', this.orderId);
     });
   }
 

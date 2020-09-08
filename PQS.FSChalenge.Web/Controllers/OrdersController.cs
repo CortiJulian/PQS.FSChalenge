@@ -13,29 +13,53 @@ namespace PQS.FSChalenge.Web.Controllers
     public class OrdersController : ControllerBase
     {
         // GET: api/<OrdersController>
-        [HttpGet("[controller]/[action]/{orderId}")]
-        public ActionResult<Orders> GetOrderbyId(int orderId)
+        [HttpGet("api/[controller]/{id}")]
+        public ActionResult<Orders> GetOrderbyId(int id)
         {
             IOrderService orderService = new OrderService();
             
-            return orderService.GetOrderById(orderId);
+            return orderService.GetOrderById(id);
         }
 
-        [HttpGet("[controller]/[action]/{status}")]
-        public ICollection<OrdersInfo> GetOrders(OrderStatus status)
+        [HttpGet("api/[controller]/pending")]
+        public ICollection<OrdersInfo> GetPendingOrders()
         {
             IOrderService orderService = new OrderService();
 
-            return orderService.GetOrders(status);
+            return orderService.GetOrders(OrderStatus.Pending);
+        }
+
+        [HttpGet("api/[controller]/approved")]
+        public ICollection<OrdersInfo> GetApprovedOrders()
+        {
+            IOrderService orderService = new OrderService();
+
+            return orderService.GetOrders(OrderStatus.Approved);
+        }
+
+        [HttpGet("api/[controller]/rejected")]
+        public ICollection<OrdersInfo> GetRejectedOrders()
+        {
+            IOrderService orderService = new OrderService();
+
+            return orderService.GetOrders(OrderStatus.Rejected);
         }
 
         //POST api/<OrdersController>
-        [HttpPost("[controller]/[action]/{orderId}")]
+        [HttpPost("api/[controller]/{id}")]
         public void ApproveOrder(int orderId)
         {
             IOrderService orderService = new OrderService();
 
             orderService.ApproveOrder(orderId);
+        }
+
+        [HttpDelete("api/[controller]/{id}")]
+        public void RejectOrder(int orderId)
+        {
+            IOrderService orderService = new OrderService();
+
+            orderService.RejectOrder(orderId);
         }
     }
 }
