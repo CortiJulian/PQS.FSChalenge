@@ -1,1 +1,34 @@
-<p>order-details works!</p>
+<div class="col-md-12" *ngIf="order">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="col-md-12">{{ order.orderDescription }}</div>
+        </div>
+        <div class="col-md-4">
+            <button class="btn" (click)="approveOrder()">
+                Approve
+            </button>
+            <button class="btn" (click)="rejectOrder()">
+                Reject
+            </button>
+        </div>
+    </div>
+    
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <th scope="col">ItemDescription</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Unit Price</th>
+                <th scope="col">Total</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of order.orderItems">
+                    <td>{{ item.itemDescription }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.unitPrice }}</td>
+                    <td>{{ item.quantity * item.unitPrice }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
