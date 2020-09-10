@@ -8,7 +8,7 @@ namespace PQS.FSChallenge.Business
     {
         ICollection<OrdersInfo> GetOrders(OrderStatus status);
         Orders GetOrderById(int orderId);
-        void ApproveOrder(int orderId);
-        void RejectOrder(int orderId);
+        bool ApproveOrder(Orders order);
+        bool RejectOrder(Orders order);
     }
 }

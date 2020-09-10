@@ -25,24 +25,18 @@ namespace PQS.FSChallenge.Business
 
         public Orders GetOrderById(int orderId)
         {
-            try 
-            { 
+            try
+            {
                 var order = _context.Orders.Find(orderId);
 
                 if(order != null)
-                { 
                     _context.Entry(order).Collection(o => o.OrderItems).Load();
 
-                    return order;
-                }
-                else
-                {
-                    throw ThrowError(HttpStatusCode.NotFound, string.Format("Order with Id={0} doesn't exist.", orderId));
-                }
+                return order;
             }
             catch (Exception ex)
             {
-                throw ThrowError(HttpStatusCode.BadRequest, ex.Message);
+                throw ex;
             }
         }
 
@@ -54,78 +48,52 @@ namespace PQS.FSChallenge.Business
             }
             catch (Exception ex)
             {
-                throw ThrowError(HttpStatusCode.BadRequest, ex.Message);
+                throw ex;
             }
         }
 
-        public void ApproveOrder(int orderId)
+        public bool ApproveOrder(Orders order)
         {
             try
             {
-                var order = _context.Orders.Find(orderId);
-
-                if (order != null)
+                if (order.OrderStatus.Equals(OrderStatus.Pending))
                 {
-                    if (order.OrderStatus.Equals(OrderStatus.Pending))
-                    {
-                        order.OrderStatus = OrderStatus.Approved;
-                        order.AuthDate = DateTime.Now;
-                        _context.SaveChanges();
-                    }
-                    else
-                    {
-                        throw ThrowError(HttpStatusCode.BadRequest, string.Format("Order with Id={0} can't be approved.", orderId));
-                    }
+                    order.OrderStatus = OrderStatus.Approved;
+                    order.AuthDate = DateTime.Now;
+                    _context.SaveChanges();
+                    return true;
                 }
                 else
                 {
-                    throw ThrowError(HttpStatusCode.NotFound, string.Format("Order with Id={0} doesn't exist.", orderId));
+                    return false;
                 }
             }
             catch (Exception ex)
             {
-                throw ThrowError(HttpStatusCode.BadRequest, ex.Message);
+                throw ex;
             }
         }
 
-        public void RejectOrder(int orderId)
+        public bool RejectOrder(Orders order)
         {
             try
             {
-                var order = _context.Orders.Find(orderId);
-
-                if (order != null)
+                if (order.OrderStatus.Equals(OrderStatus.Pending))
                 {
-                    if (order.OrderStatus.Equals(OrderStatus.Pending))
-                    {
-                        order.OrderStatus = OrderStatus.Rejected;
-                        order.AuthDate = DateTime.Now;
-                        _context.SaveChanges();
-                    }
-                    else
-                    {
-                        throw ThrowError(HttpStatusCode.BadRequest, string.Format("Order with Id={0} can't be rejected.", orderId));
-                    }
+                    order.OrderStatus = OrderStatus.Rejected;
+                    order.AuthDate = DateTime.Now;
+                    _context.SaveChanges();
+                    return true;
                 }
                 else
                 {
-                    throw ThrowError(HttpStatusCode.NotFound, string.Format("Order with Id={0} doesn't exist.", orderId));
+                    return false;
                 }
             }
             catch (Exception ex)
             {
-                throw ThrowError(HttpStatusCode.BadRequest, ex.Message);
+                throw ex;
             }
-        }
-
-        private HttpResponseException ThrowError(HttpStatusCode code, string message)
-        {
-            var response = new HttpResponseMessage(code)
-            {
-                Content = new StringContent(message, System.Text.Encoding.UTF8, "text/plain"),
-                StatusCode = HttpStatusCode.NotFound
-            };
-            return new HttpResponseException(response);
         }
     }
 }
