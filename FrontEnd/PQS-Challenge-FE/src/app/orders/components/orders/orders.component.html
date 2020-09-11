@@ -1,10 +1,15 @@
 <div class="col-md-12">
+    <div class="col-md-12 title">
+        <h1>Orders</h1>
+    </div>
     <div class="col-md-4 combo-box dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{ selectedStatus }}
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" *ngFor="let status of statuses" (click)="setStatus(status)">{{ status.name }}</a>
+        <div class="row dropdown-row">
+            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ selectedStatus }}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" *ngFor="let status of statuses" (click)="setStatus(status)">{{ status.name }}</a>
+            </div>
         </div>
     </div>
     <div class="col-md-12">
@@ -19,14 +24,14 @@
                 <th scope="col">Auth Date</th>
             </thead>
             <tbody>
-                <tr *ngFor="let order of orders" [routerLink]="['orderDetail', order.orderId]">
-                    <th scope="row">{{ order.orderId }}</th>
-                    <td>{{ order.orderDescription }}</td>
-                    <td>{{ order.orderStatus }}</td>
-                    <td>{{ order.qitems }}</td>
-                    <td>{{ order.total }}</td>
-                    <td>{{ order.createdOn }}</td>
-                    <td>{{ order.authDate }}</td>
+                <tr class="order-row" *ngFor="let order of orders" [routerLink]="['orderDetail', order.Id]">
+                    <th scope="row">{{ order.Id }}</th>
+                    <td>{{ order.Description }}</td>
+                    <td>{{ getStatusName(order.StatusNum) }}</td>
+                    <td>{{ order.ItemsQuantity }}</td>
+                    <td>${{ order.TotalAmount }}</td>
+                    <td>{{ order.CreatedOn }}</td>
+                    <td>{{ order.AuthDate }}</td>
                 </tr>
             </tbody>
         </table>

@@ -1,15 +1,26 @@
+<div class="col-md-12 title">
+    <h1>Order Detail</h1>
+</div>
+
 <div class="col-md-12" *ngIf="order">
-    <div class="row">
+    <div class="row order-row">
         <div class="col-md-8">
-            <div class="col-md-12">{{ order.orderDescription }}</div>
+            <div class="col-md-12"><h2>Order Description</h2></div>
+            <div class="col-md-12">{{ order.Description }}</div>
         </div>
-        <div class="col-md-4">
-            <button class="btn" (click)="approveOrder()">
-                Approve
-            </button>
-            <button class="btn" (click)="rejectOrder()">
-                Reject
-            </button>
+        <div class="col-md-4" *ngIf="order.StatusNum == 0">
+            <div class="row">
+                <div class="col-md-6 btn-cont">
+                    <button class="btn btn-success" (click)="approveOrder()">
+                        Approve
+                    </button>
+                </div>
+                <div class="col-md-6 btn-cont">
+                    <button class="btn btn-danger" (click)="rejectOrder()">
+                        Reject
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -22,13 +33,27 @@
                 <th scope="col">Total</th>
             </thead>
             <tbody>
-                <tr *ngFor="let item of order.orderItems">
-                    <td>{{ item.itemDescription }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.unitPrice }}</td>
-                    <td>{{ item.quantity * item.unitPrice }}</td>
+                <tr *ngFor="let item of order.OrderItems">
+                    <td>{{ item.ItemDescription }}</td>
+                    <td>{{ item.Quantity }}</td>
+                    <td>${{ item.UnitPrice }}</td>
+                    <td>{{ item.Quantity * item.UnitPrice }}</td>
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="col-md-12">
+        <div><h3>Total</h3></div>
+        <div>${{getOrderTotalAmount()}}</div>
+    </div>
+</div>
+
+<div class="col-md-12 error-msg" *ngIf="!order">
+    <div class="row">
+        <div class="col-md-12">No valid order selected</div>
+        <div class="col-md-12">
+            <a class="order-button btn btn-danger" routerLink="/orders" routerLinkActive="active">Go to Orders</a>
+        </div>
     </div>
 </div>

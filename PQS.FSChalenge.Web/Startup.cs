@@ -45,7 +45,9 @@ namespace PQS.FSChalenge.Web
 
                 options.AddPolicy("AllowAnyOrigin",
 
-                builder => builder.AllowAnyOrigin());
+                builder => builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod());
 
             });
             services.AddControllers();

@@ -1,3 +1,24 @@
 .dropdown-item {
     cursor: pointer;
 }
+
+.dropdown-row {
+    justify-content: center;
+    margin: 1rem;
+}
+
+.title  {
+    margin-top: 1rem;
+    h1 {
+        text-align: center;
+    }
+}
+
+.order-row {
+    cursor: pointer;
+}
+
+.order-row:hover {
+    background-color: darkcyan;
+    color: #ffffff;
+}

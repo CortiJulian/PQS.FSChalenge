@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OrdersService } from '../../services/orders.service';
+import { OrderInfo } from '../../services/models/orders.model';
 
 @Component({
   selector: 'app-orders',
@@ -10,7 +11,7 @@ export class OrdersComponent implements OnInit {
 
   constructor(private ordersService: OrdersService) { }
 
-  orders: any;
+  orders: Array<OrderInfo>;
 
   pendingApproval = {
       name: 'Pending Approval',
@@ -48,6 +49,17 @@ export class OrdersComponent implements OnInit {
     error => {
       console.error(error);
     });
+  }
+
+  getStatusName(statusNum: number) {
+    switch(statusNum) {
+      case 0:
+        return this.pendingApproval.name;
+      case 1:
+        return this.approved.name;
+      case -1:
+        return this.rejected.name;
+    }
   }
 
 }
